@@ -10,16 +10,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class userAssignTask
+class userAssignTask implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $user;
+    public $task;
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($user, $task)
     {
-        
+        $this->user = $user;
+        $this->task = $task;
     }
 
     /**
@@ -30,7 +33,17 @@ class userAssignTask
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('assign-task' . $this->user->id),
+        ];
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'task_id' => $this->task->id,
+            'task_name' => $this->task->titre,
+            'user_id' => $this->user->id,
+            'user_name' => $this->user->nom,
         ];
     }
 }
