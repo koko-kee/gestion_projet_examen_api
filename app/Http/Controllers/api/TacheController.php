@@ -30,7 +30,7 @@ class TacheController extends Controller
         $task = Tache::find($task_id);
         $user = User::find($user_id);
         if ($user) {
-            $task->user->id_assigné = $user_id;
+            $task->user->id_assigne = $user_id;
             $task->save();
             return response()->json($task, 201);
         } else {
@@ -40,7 +40,7 @@ class TacheController extends Controller
 
     private function decommissionTaskToUser(int $user_id, int $task_id)
     {
-        $task = Tache::find($task_id);
+        $task = Tache::find($task_isd);
         if ($task->projet()->id_responsable == auth()->user()->id) {
             $task->user->id_assigné = null;
             $task->save();
@@ -48,6 +48,8 @@ class TacheController extends Controller
         } else {
             return response()->json(['message' => 'Permission denied'], 403);
         }
+        
+        
     }
 
 

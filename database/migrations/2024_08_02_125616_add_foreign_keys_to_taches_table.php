@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('taches', function (Blueprint $table) {
-            $table->foreign(['id_projet'], 'taches_ibfk_1')->references(['id'])->on('projets')->onUpdate('restrict')->onDelete('restrict');
-            $table->foreign(['id_assigné'], 'taches_ibfk_2')->references(['id'])->on('users')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign(['id_projet'], 'fk_taches_projets')->references(['id'])->on('projets')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign(['id_assigne'], 'fk_taches_users')->references(['id'])->on('users')->onUpdate('restrict')->onDelete('restrict');
         });
     }
 
@@ -23,8 +23,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('taches', function (Blueprint $table) {
-            $table->dropForeign('taches_ibfk_1');
-            $table->dropForeign('taches_ibfk_2');
+            $table->dropForeign('fk_taches_projets');
+            $table->dropForeign('fk_taches_users');
         });
     }
 };
+

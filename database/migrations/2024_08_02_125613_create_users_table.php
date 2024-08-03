@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('prenom', 100);
             $table->string('email')->unique('email');
             $table->string('mot_de_passe');
+            $table->integer('role')->nullable()->index('role');
             $table->timestamp('create_date')->useCurrent();
         });
     }
